@@ -1,0 +1,19 @@
+*{
+  background-color: silver;
+}
+
+.container{
+  text-align: center;
+  margin: 0 auto;
+}
+
+.register, .login{
+  display: inline-block;
+  height: 350px;
+  width: 180px;
+  vertical-align: top;
+}
+
+  .login{
+    margin-left: 45px;
+  }

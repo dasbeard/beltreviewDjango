@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Add a Book and Review</title>
+    {%load static %}
+    <link rel="stylesheet" href="{% static 'books/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="name">
+          <h1></h1>
+        </div>
+        <div class="navigation">
+          <a href="{% url 'books:index' %}">Home</a><a href="{% url 'users:signout' %}">Logout</a>
+        </div>
+      </header>
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+      <form class="addBook" action="{% url 'books:create_book' %}" method="post">
+        <fieldset>
+          <legend>Add a New Book Title and a Review</legend>
+          <label>Book Title: </label> <input type="text" name="title">
+          <h4>Author: </h4>
+          <label>Choose from the list: </label>
+          <select name="author">
+          {% for author in oldAuthors %}
+              <option value="{{author.name}}">{{author.name}}</option>
+          {% endfor %}
+        </select>
+          <label>Or add a new Author</label><input type="text" name="newAuthor">
+          <label>Review: </label><textarea name="review" rows="8" cols="60"></textarea>
+
+          <label>Rating: </label><select name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <input type="submit" value="Add Book and Review" class="BTN">
+        </fieldset>
+        {% csrf_token %}
+      </form>
+
+
+
+    </div> <!-- End Container -->
+  </body>
+</html>

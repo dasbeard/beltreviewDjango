@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>User page for: {{user.full_name}}</title>
+    {%load static %}
+    <link rel="stylesheet" href="{% static 'books/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="name">
+          <h1></h1>
+        </div>
+        <div class="navigation">
+          <a href="{% url 'books:index' %}">Home</a><a href="{% url 'books:add' %}">Add Book and Review</a><a href="{% url 'users:signout' %}">Logout</a>
+        </div>
+      </header>
+
+      <div class="user">
+        <h2>Users Alias: {{user.first_name}}</h2>
+        <p>Name: {{user.full_name}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Total Reviews: {{count}}</p>
+      </div>
+
+      <div class="reviews">
+        <h3>Posted Reviews on the followin books:</h3>
+        {% for book in books %}
+        <a href="{% url 'books:book' id=book.book.id %}">{{book.book.title}}</a>
+        {% endfor %}
+      </div>
+
+
+
+    </div> <!-- End Container -->
+  </body>
+</html>

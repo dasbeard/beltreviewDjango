@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Review "{{book.title}}"</title>
+    {%load static %}
+    <link rel="stylesheet" href="{% static 'books/css/styles.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="name">
+          <h1></h1>
+        </div>
+        <div class="navigation">
+          <a href="{% url 'books:index' %}">Home</a><a href="{% url 'users:signout' %}">Logout</a>
+        </div>
+      </header>
+
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="title">
+        <h2>Title: {{book.title}}</h2>
+        <h3> Author: {{book.author.name}} </h3>
+      </div>
+      <div class="titles">
+        <h3>Reviews</h3>
+        <h3 class="others">Add a Review</h3>
+      </div>
+      <div class="recentReviews">
+
+        {% for review in allReviews %}
+          <div class="review">
+            <p class="topper">Rating: {{review.rating}}</p>
+            <p><a href="{% url 'books:user' id=review.user.id %}">{{review.user.first_name}} </a> says:</p>
+            <p> Review: {{review.content}}</p>
+            <p>Posted On: {{review.created_at}}</p>
+
+              {% if review.user.id == logged_user.id %}
+                <p><a href="{% url 'books:delete' id=review.id %}">Remove Review</a></p>
+              {% endif %}
+
+
+          </div>
+        {% endfor %}
+
+      </div> <!-- End recent reviews -->
+      <div class="addReview">
+        <form class="" action="{% url 'books:create_review' id=book.id %}" method="post">
+          <textarea name="review" rows="7" cols="40"></textarea>
+          <label>Rating: </label><select name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <input type="submit" value="Add a Review" class="BTN">
+          {% csrf_token %}
+        </form>
+
+      </div>
+
+    </div> <!-- End Container -->
+  </body>
+</html>
